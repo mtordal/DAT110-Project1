@@ -1,5 +1,6 @@
 package no.hvl.dat110.rpc;
 
+import java.nio.ByteBuffer;
 import java.util.Arrays;
 
 import no.hvl.dat110.TODO;
@@ -17,8 +18,14 @@ public class RPCUtils {
 
 		// TODO: marshall RPC identifier and string into byte array
 
-		if (true) {
-			throw new UnsupportedOperationException(TODO.method());
+		byte[] stringbytes = str.getBytes();
+
+		encoded = new byte[stringbytes.length + 1];
+
+		encoded[0] = rpcid;
+
+		for (int i = 1; i < encoded.length; i++) {
+			encoded[i] = stringbytes[i - 1];
 		}
 
 		return encoded;
@@ -30,9 +37,7 @@ public class RPCUtils {
 
 		// TODO: unmarshall String contained in data into decoded
 
-		if (true) {
-			throw new UnsupportedOperationException(TODO.method());
-		}
+		decoded = new String(Arrays.copyOfRange(data, 1, data.length));
 
 		return decoded;
 	}
@@ -43,9 +48,7 @@ public class RPCUtils {
 
 		// TODO: marshall RPC identifier in case of void type
 
-		if (true) {
-			throw new UnsupportedOperationException(TODO.method());
-		}
+		encoded = new byte[]{rpcid};
 
 		return encoded;
 
@@ -83,8 +86,15 @@ public class RPCUtils {
 
 		// TODO: marshall RPC identifier and string into byte array
 
-		if (true) {
-			throw new UnsupportedOperationException(TODO.method());
+		encoded = new byte[5];
+
+		encoded[0] = rpcid;
+
+		ByteBuffer bb = ByteBuffer.allocate(4);
+		bb.putInt(x);
+
+		for (int i = 0; i < 4; i++) {
+			encoded[i + 1] = bb.get(i);
 		}
 
 		return encoded;
@@ -96,9 +106,13 @@ public class RPCUtils {
 
 		// TODO: unmarshall integer contained in data
 
-		if (true) {
-			throw new UnsupportedOperationException(TODO.method());
+		byte[] intbytes = new byte[data.length - 1];
+
+		for (int i = 0; i < intbytes.length; i++) {
+			intbytes[i] = data[i + 1];
 		}
+
+		decoded = ByteBuffer.wrap(intbytes).getInt();
 
 		return decoded;
 
