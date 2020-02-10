@@ -21,7 +21,7 @@ public class RPCClient {
 		
 		// TODO: connect using the underlying messaging layer connection
 
-		msgclient.connect();
+		connection = msgclient.connect();
 			
 	}
 	
